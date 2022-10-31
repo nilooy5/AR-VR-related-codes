@@ -1,5 +1,6 @@
 ## Only run examples in interactive R sessions
 library(shiny)
+library(plotly)
 if (interactive()) {
   options(device.ask.default = FALSE)
 
@@ -24,36 +25,81 @@ if (interactive()) {
       ),
 
       # Show 4 plots of iris data
-      mainPanel(
-        plotOutput("sepal_length_plot"),
-        plotOutput("sepal_width_plot"),
-        plotOutput("petal_length_plot"),
-        plotOutput("petal_width_plot")
-      )
+      mainPanel(plotlyOutput("myplot"))
     )
   )
 
   # Server logic
   server <- function(input, output) {
-    output$sepal_length_plot <- renderPlot({
-      #   filter rows such that sepal length is less than or equal to the slider value
-      filtered_iris <- iris[iris$Sepal.Length <= input$sepal_length,]
-      hist(filtered_iris$Sepal.Length, main = "Sepal Length")
-    })
-    output$sepal_width_plot <- renderPlot({
-      filtered_iris <- iris[iris$Sepal.Width <= input$sepal_width,]
-      hist(filtered_iris$Sepal.Width, main = "Sepal Width")
-      # hist(iris$Sepal.Width, breaks = 20, col = 'darkgray', border = 'white')
-    })
-    output$petal_length_plot <- renderPlot({
-      filtered_iris <- iris[iris$Petal.Length <= input$petal_length,]
-      hist(filtered_iris$Petal.Length, main = "Petal Length")
-      # hist(iris$Petal.Length, breaks = 20, col = 'darkgray', border = 'white')
-    })
-    output$petal_width_plot <- renderPlot({
-      filtered_iris <- iris[iris$Petal.Width <= input$petal_width,]
-      hist(filtered_iris$Petal.Width, main = "Petal Width")
-      # hist(iris$Petal.Width, breaks = 20, col = 'darkgray', border = 'white')
+
+    output$myplot <- renderPlotly({
+      gg1 <- ggplotly(
+        # Filter iris data by slider inputs
+        ggplot(iris, aes(x = Sepal.Length)) +
+          geom_histogram(binwidth = 1) +
+          xlim(min(iris$Sepal.Length), input$sepal_length)
+      ) %>% add_annotations(
+        text = "Sepal.Length",
+        x = 0,
+        y = 1,
+        yref = "paper",
+        xref = "paper",
+        xanchor = "left",
+        yanchor = "top",
+        yshift = 20,
+        showarrow = FALSE,
+        font = list(size = 15)
+      )
+      gg2 <- ggplotly(
+        ggplot(iris, aes(x = Sepal.Width)) +
+          geom_histogram(binwidth = 1) +
+          xlim(min(iris$Sepal.Width), input$sepal_width)
+      ) %>% add_annotations(
+        text = "Sepal.Width",
+        x = 0,
+        y = 1,
+        yref = "paper",
+        xref = "paper",
+        xanchor = "left",
+        yanchor = "top",
+        yshift = 20,
+        showarrow = FALSE,
+        font = list(size = 15)
+      )
+      gg3 <- ggplotly(
+        ggplot(iris, aes(x = Petal.Length)) +
+          geom_histogram(binwidth = 1) +
+          xlim(min(iris$Petal.Length), input$petal_length)
+      ) %>% add_annotations(
+        text = "Petal.Length",
+        x = 0,
+        y = 1,
+        yref = "paper",
+        xref = "paper",
+        xanchor = "left",
+        yanchor = "top",
+        yshift = 20,
+        showarrow = FALSE,
+        font = list(size = 15)
+      )
+      gg4 <- ggplotly(
+        ggplot(iris, aes(x = Petal.Width)) +
+          geom_histogram(binwidth = 1) +
+          xlim(min(iris$Petal.Width), input$petal_width)
+      ) %>% add_annotations(
+        text = "Petal.Width",
+        x = 0,
+        y = 1,
+        yref = "paper",
+        xref = "paper",
+        xanchor = "left",
+        yanchor = "top",
+        yshift = 20,
+        showarrow = FALSE,
+        font = list(size = 15)
+      )
+
+      subplot(list(gg1, gg2, gg3, gg4), nrows = 2, margin = 0.06)
     })
   }
 
