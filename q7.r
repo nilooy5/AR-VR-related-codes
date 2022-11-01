@@ -3,7 +3,6 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 require(reshape2)
-load(rstatix)
 
 q7 <- read_csv("data/q7_data.csv")
 # remove percent sign from 2nd to last column
