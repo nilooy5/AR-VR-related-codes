@@ -13,9 +13,10 @@ q6_data <- melt(q6_data, id = "date")
 q6_data %>%
   ggplot() +
   geom_bar(aes(x = date, y = value, fill = variable), width = 0.7, position = "dodge", stat = "identity") +
-  geom_hline(yintercept = mean(dem), linetype = "dashed", color = "#00bfc4") +
-  geom_hline(yintercept = mean(cap), linetype = "dashed", color = "#f8766d") +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_hline(yintercept = mean(dem), linetype = "dashed", color = "#f8766d") +
+  geom_hline(yintercept = mean(cap), linetype = "dashed", color = "#00bfc4") +
   geom_text(aes(x = date, y = value, label = value), position = position_dodge(width = 0.9), vjust = -0.25, size=4) +
+  scale_fill_manual(values = c("#00bfc4", "#f8766d")) +
   labs(title = "Capacity and Demand of different months", x = "date", y = "Capacity and Demand") +
+  theme(plot.title = element_text(hjust = 0.5)) +
   coord_flip()
