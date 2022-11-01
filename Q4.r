@@ -1,29 +1,19 @@
-# ========================================
-# Check and install the required packages
-# ========================================
-# list of required packages
+# listing required packages
 requiredPackages <- c("ggplot2", "shiny", "ggplot2", "gridExtra", "dplyr")
 
-# check for each package and install if not present
-# and display in console if already installed
+# installing packages if they are not installed
 for (pkg in requiredPackages) {
-  #if the package is not installed then install the package
   if (!(pkg %in% rownames(installed.packages()))) {
     install.packages(pkg)
   }
-  else {
-    print(paste(pkg, "is already installed..."))
-  }
 }
 
-# ==============
-# load packages
-# ==============
+# loading packages
 for (pkg in requiredPackages) {
   lapply(pkg, require, character.only = TRUE)
 }
 
-# load dataset
+# loading iris dataset
 data(iris)
 
 
@@ -40,7 +30,7 @@ ui <- fluidPage(
         choices = c("setosa", "versicolor", "virginica")
       ),
 
-      #set slider inputs for varying all 4 values in the iris dataset
+      # setting initial slider values to escape error
       sliderInput("sepal_length", "Sepal length",
                   min = 0.1, max = 5.0,
                   value = 0.5, step = 0.1),
@@ -70,34 +60,34 @@ ui <- fluidPage(
 #server function
 server <- function(input, output, session) {
 
-  #filter the data set iris using species and sepal length
+  # filtering the data set iris using species and sepal length
   filtered_by_SL <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Sepal.Length <= input$sepal_length)
   })
 
-  #filter the data set iris using species and sepal width
+  # filtering the data set iris using species and sepal width
   filtered_by_SW <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Sepal.Width <= input$sepal_width)
   })
 
-  #filter the data set iris using species and petal length
+  # filtering the data set iris using species and petal length
   filtered_by_PL <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Petal.Length <= input$petal_length)
   })
-  #filter the data set iris using species and petal width
+  # filtering the data set iris using species and petal width
   filtered_by_PW <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Petal.Width <= input$petal_width)
   })
 
-  #function for updating slider inputs
+  # updating slider inputs
   observe({
 
     filtered_by_species <- iris %>%
@@ -134,7 +124,7 @@ server <- function(input, output, session) {
   })
 
   output$main_plot <- renderPlot({
-    #render all plots using the dataframes ontained above
+    # rendering plots individually and then combining them using grid.arrange
     gg1 <- ggplot(
       filtered_by_SL(),
       aes(x = Sepal.Length)) +
@@ -167,6 +157,7 @@ server <- function(input, output, session) {
       labs(x = "Petal Width") +
       theme_classic()
 
+    # combining plots using grid.arrange
     grid.arrange(gg1, gg2, gg3, gg4, nrow = 2, ncol = 2, top = input$Heading)
   })
 }
