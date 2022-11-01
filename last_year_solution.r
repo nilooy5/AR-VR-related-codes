@@ -137,44 +137,32 @@ server <- function(input, output, session) {
     #render all plots using the dataframes ontained above
     gg1 <- ggplot(
       filtered_by_SL(),
-      aes(x = seq(1, length(Sepal.Length)), y = Sepal.Length)) +
-      geom_bar(stat = "identity",
-               fill = "yellow",
-               color = "black",
-               alpha = .3) +
+      aes(x = Sepal.Length)) +
+      geom_histogram(fill = "yellow", color="black", alpha = 0.5, binwidth = .1) +
       labs(y = "Sepal Length") +
       labs(x = paste("total_count", nrow(filtered_by_SL()))) +
       theme_classic()
 
     gg2 <- ggplot(
       filtered_by_SW(),
-      aes(x = seq(1, length(Sepal.Width)), y = Sepal.Width)) +
-      geom_bar(stat = "identity",
-               fill = "green",
-               color = "black",
-               alpha = .2) +
+      aes(x = Sepal.Width)) +
+      geom_histogram(fill = "green", color="black", alpha = 0.5, binwidth = .1) +
       labs(y = "Sepal Width") +
       labs(x = paste("total_count", nrow(filtered_by_SW()))) +
       theme_classic()
 
     gg3 <- ggplot(
       filtered_by_PL(),
-      aes(x = seq(1, length(Petal.Length)), y = Petal.Length)) +
-      geom_bar(stat = "identity",
-               fill = "blue",
-               color = "black",
-               alpha = .3) +
+      aes(x = Petal.Length)) +
+      geom_histogram(fill = "blue", color="black", alpha = 0.5, binwidth = .1) +
       labs(y = "Petal Length") +
       labs(x = paste("total_count", nrow(filtered_by_PL()))) +
       theme_classic()
 
     gg4 <- ggplot(
       filtered_by_PW(),
-      aes(x = seq(1, length(Petal.Width)), y = Petal.Width)) +
-      geom_bar(stat = "identity",
-               fill = "red",
-               color = "black",
-               alpha = .2) +
+      aes(x = Petal.Width)) +
+      geom_histogram(fill = "red", color="black", alpha = 0.5, binwidth = .1) +
       labs(y = "Petal Width") +
       labs(x = paste("total_count", nrow(filtered_by_PW()))) +
       theme_classic()
