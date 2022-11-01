@@ -41,18 +41,18 @@ ui <- fluidPage(
       ),
 
       #set slider inputs for varying all 4 values in the iris dataset
-      sliderInput("lengths1", "Sepal length",
+      sliderInput("sepal_length", "Sepal length",
                   min = 0.1, max = 5.0,
                   value = 0.5, step = 0.1),
 
-      sliderInput("lengths2", "Sepal Width",
+      sliderInput("sepal_width", "Sepal Width",
                   min = 0.1, max = 5.0,
                   value = 0.5, step = 0.1),
-      sliderInput("lengths3", "Petal length",
+      sliderInput("petal_length", "Petal length",
                   min = 0.1, max = 5.0,
                   value = 0.5, step = 0.1),
 
-      sliderInput("lengths4", "Petal Width",
+      sliderInput("petal_width", "Petal Width",
                   min = 0.1, max = 5.0,
                   value = 0.5, step = 0.1),
 
@@ -71,33 +71,33 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
   #filter the data set iris using species and sepal length
-  dff1 <- reactive({
+  filtered_by_SL <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
-      filter(Sepal.Length <= input$lengths1)
+      filter(Sepal.Length <= input$sepal_length)
 
   })
 
   #filter the data set iris using species and sepal width
-  dff2 <- reactive({
+  filtered_by_SW <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
-      filter(Sepal.Width <= input$lengths2)
+      filter(Sepal.Width <= input$sepal_width)
 
   })
 
   #filter the data set iris using species and petal length
-  dff3 <- reactive({
+  filtered_by_PL <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
-      filter(Petal.Length <= input$lengths3)
+      filter(Petal.Length <= input$petal_length)
 
   })
   #filter the data set iris using species and petal width
-  dff4 <- reactive({
+  filtered_by_PW <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
-      filter(Petal.Width <= input$lengths4)
+      filter(Petal.Width <= input$petal_width)
 
   })
 
@@ -107,56 +107,81 @@ server <- function(input, output, session) {
     d <- iris %>%
       filter(Species %in% input$species)
 
-    updateSliderInput(session, "lengths1", min = min(d$Sepal.Length),
-                      max = max(d$Sepal.Length), step = 0.1, value = (min(d$Sepal.Length) + max(d$Sepal.Length)) / 2)
+    updateSliderInput(session,
+                      "sepal_length",
+                      min = min(d$Sepal.Length),
+                      max = max(d$Sepal.Length),
+                      step = 0.1,
+                      value = (min(d$Sepal.Length) + max(d$Sepal.Length)) / 2)
 
-    updateSliderInput(session, "lengths2", min = min(d$Sepal.Width),
-                      max = max(d$Sepal.Width), step = 0.1, value = (min(d$Sepal.Width) + max(d$Sepal.Width)) / 2)
+    updateSliderInput(session,
+                      "sepal_width",
+                      min = min(d$Sepal.Width),
+                      max = max(d$Sepal.Width),
+                      step = 0.1,
+                      value = (min(d$Sepal.Width) + max(d$Sepal.Width)) / 2)
 
-    updateSliderInput(session, "lengths3", min = min(d$Petal.Length),
-                      max = max(d$Petal.Length), step = 0.1, value = (min(d$Petal.Length) + max(d$Petal.Length)) / 2)
+    updateSliderInput(session,
+                      "petal_length",
+                      min = min(d$Petal.Length),
+                      max = max(d$Petal.Length),
+                      step = 0.1,
+                      value = (min(d$Petal.Length) + max(d$Petal.Length)) / 2)
 
-    updateSliderInput(session, "lengths4", min = min(d$Petal.Width),
-                      max = max(d$Petal.Width), step = 0.1, value = (min(d$Petal.Width) + max(d$Petal.Width)) / 2)
+    updateSliderInput(session,
+                      "petal_width",
+                      min = min(d$Petal.Width),
+                      max = max(d$Petal.Width),
+                      step = 0.1,
+                      value = (min(d$Petal.Width) + max(d$Petal.Width)) / 2)
 
-  }
-
-  )
-
+  })
 
   output$plot1 <- renderPlot({
 
     #render all plots using the dataframes ontained above
     gg1 <- ggplot(
-      dff1(),
+      filtered_by_SL(),
       aes(x = seq(1, length(Sepal.Length)), y = Sepal.Length)) +
-      geom_bar(stat = "identity", fill = "yellow", color = "black", alpha = .3) +
+      geom_bar(stat = "identity",
+               fill = "yellow",
+               color = "black",
+               alpha = .3) +
       labs(y = "Sepal Length") +
-      labs(x = paste("total_count", nrow(dff1()))) +
+      labs(x = paste("total_count", nrow(filtered_by_SL()))) +
       theme_classic()
 
     gg2 <- ggplot(
-      dff2(),
+      filtered_by_SW(),
       aes(x = seq(1, length(Sepal.Width)), y = Sepal.Width)) +
-      geom_bar(stat = "identity", fill = "green", color = "black", alpha = .2) +
+      geom_bar(stat = "identity",
+               fill = "green",
+               color = "black",
+               alpha = .2) +
       labs(y = "Sepal Width") +
-      labs(x = paste("total_count", nrow(dff2()))) +
+      labs(x = paste("total_count", nrow(filtered_by_SW()))) +
       theme_classic()
 
     gg3 <- ggplot(
-      dff3(),
+      filtered_by_PL(),
       aes(x = seq(1, length(Petal.Length)), y = Petal.Length)) +
-      geom_bar(stat = "identity", fill = "blue", color = "black", alpha = .3) +
+      geom_bar(stat = "identity",
+               fill = "blue",
+               color = "black",
+               alpha = .3) +
       labs(y = "Petal Length") +
-      labs(x = paste("total_count", nrow(dff3()))) +
+      labs(x = paste("total_count", nrow(filtered_by_PL()))) +
       theme_classic()
 
     gg4 <- ggplot(
-      dff4(),
+      filtered_by_PW(),
       aes(x = seq(1, length(Petal.Width)), y = Petal.Width)) +
-      geom_bar(stat = "identity", fill = "red", color = "black", alpha = .2) +
+      geom_bar(stat = "identity",
+               fill = "red",
+               color = "black",
+               alpha = .2) +
       labs(y = "Petal Width") +
-      labs(x = paste("total_count", nrow(dff4()))) +
+      labs(x = paste("total_count", nrow(filtered_by_PW()))) +
       theme_classic()
 
     grid.arrange(gg1, gg2, gg3, gg4, nrow = 2, ncol = 2, top = input$Heading)
