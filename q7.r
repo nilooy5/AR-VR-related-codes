@@ -4,7 +4,7 @@ library(readr)
 library(ggplot2)
 require(reshape2)
 
-q7 <- read_csv("data/q7_data.csv")
+q7 <- read_csv("fazalMahmudNiloy_u3228358_q7_data.csv")
 # remove percent sign from 2nd to last column
 q7[,2:ncol(q7)] <- sapply(q7[,2:ncol(q7)], function(x) as.numeric(gsub("%", "", x)))
 # gather data and plot them
