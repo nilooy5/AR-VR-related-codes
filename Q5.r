@@ -39,9 +39,12 @@ work_data$color[work_data$Species == 1] <- "#ff0000"
 work_data$color[work_data$Species == 2] <- "#00ff00"
 work_data$color[work_data$Species == 3] <- "#4CC3D9"
 work_data
-
+# remove Sepal.Length, Species
+html_data <- work_data[,c(2,3,4,6,7)]
 
 iris_json <- jsonlite::toJSON(work_data)
+html_json <- jsonlite::toJSON(html_data)
+html_json # this json data will be used in html file
 # create scene
 my_scene <- a_scene(.template = "empty",
                     .children = list(
