@@ -10,8 +10,8 @@ library(threejs)
 url <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/11-03-2020.csv"
 covid <- getURL(url)
 covid
-download.file("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/11-03-2020.csv", destfile = "covid.csv", method = "curl")
-covid <- read.csv("covid.csv")
+download.file("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/11-03-2020.csv", destfile = "data/covid.csv", method = "curl")
+covid <- read.csv("data/covid.csv")
 # sort by confirmed cases
 covidOrdered <- covid[order(-covid$Confirmed),]
 # sort by confirmed cases in descending order
