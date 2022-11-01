@@ -21,22 +21,29 @@ a_scatterplot <- function(json_data, x, y, z, ...) {
 
 # end of function
 # convert the dataset into a JSON file
-diamonds_json <- jsonlite::toJSON(diamonds)
+work_data <- iris
+# conver species to factor
+# if work_data$Species is setosa, versicolor or virginica, then it will be 1, 2 or 3
+work_data$Species <- as.factor(work_data$Species)
+# conver factor to numeric
+work_data$Species <- as.numeric(work_data$Species)
+
+iris_json <- jsonlite::toJSON(work_data)
 # create scene
 my_scene <- a_scene(.template = "empty",
                     .children = list(
-                      a_scatterplot(diamonds_json, # dataset
-                                    x = "depth",
-                                    y = "carat",
-                                    z = "table", # choose columns in your dataset
-                                    val = "price", # colour scale
-                                    xlabel = "depth", ylabel = "carat", zlabel = "table", #axis labels
+                      a_scatterplot(iris_json, # dataset
+                                    x = "Petal.Width",
+                                    y = "Sepal.Width",
+                                    z = "Petal.Length", # choose columns in your dataset
+                                    val = "Species", # colour scale
+                                    xlabel = "Petal.Length", ylabel = "Petal.Width", zlabel = "Sepal.Width", #axis labels
                                     showFloor = TRUE,
                                     ycage = TRUE,
                                     title = "Price of Diamonds in Dollars $$$",
                                     pointsize = "10", # try different values
                                     position = c(0, 0, -2),
-                                    scale = c(3, 3, 3)
+                                    scale = c(2, 2, 2)
                       ),
                       a_pc_control_camera()))
 # Serve a scene
