@@ -40,7 +40,7 @@ my_scene <- a_scene(.template = "empty",
                                     xlabel = "Petal.Length", ylabel = "Petal.Width", zlabel = "Sepal.Width", #axis labels
                                     showFloor = TRUE,
                                     ycage = TRUE,
-                                    title = "Price of Diamonds in Dollars $$$",
+                                    title = "Iris dataset with it's species variables",
                                     pointsize = "10", # try different values
                                     position = c(0, 0, -2),
                                     scale = c(2, 2, 2)
