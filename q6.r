@@ -15,7 +15,7 @@ q6_data %>%
   geom_bar(aes(x = date, y = value, fill = variable), width = 0.7, position = "dodge", stat = "identity") +
   geom_hline(yintercept = mean(dem), linetype = "dashed", color = "#f8766d") +
   geom_hline(yintercept = mean(cap), linetype = "dashed", color = "#00bfc4") +
-  geom_text(aes(x = date, y = value, label = value), position = position_dodge(width = 0.9), vjust = -.5, size=2.5, hjust = -.25) +
+  geom_label(aes(x = date, y = value, label = value), col=as.factor(q6_data$variable), position = position_dodge(width = 0.9), vjust = ifelse(q6_data$variable == "demand", 0, 1), size=2.5, hjust = 0) +
   scale_fill_manual(values = c("#00bfc4", "#f8766d")) +
   labs(title = "Capacity and Demand of different months", x = "date", y = "Capacity and Demand") +
   theme(plot.title = element_text(hjust = 0.5)) +
