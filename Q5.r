@@ -2,7 +2,7 @@
 library(r2vr)
 library(jsonlite)
 library(ggplot2)
-
+# THIS CODE HAS BEEN TAKE FROM WEEK 9 Exercise 6 as a boilerplate
 a_scatterplot <- function(json_data, x, y, z, ...) {
   ## js sources for scatterplot.
   .scatter_source <- "https://cdn.rawgit.com/zcanter/aframe-scatterplot/master/dist/a-scatterplot.min.js"
@@ -22,7 +22,7 @@ a_scatterplot <- function(json_data, x, y, z, ...) {
 # end of function
 # convert the dataset into a JSON file
 work_data <- iris
-# work_data
+
 # change names of columns Petal.Width, Sepal.Width, Petal.Length to x, y, z
 names(work_data)[names(work_data) == "Petal.Width"] <- "x"
 names(work_data)[names(work_data) == "Sepal.Width"] <- "y"

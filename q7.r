@@ -7,7 +7,7 @@ require(reshape2)
 q7 <- read_csv("data/q7_data.csv")
 # remove percent sign from 2nd to last column
 q7[,2:ncol(q7)] <- sapply(q7[,2:ncol(q7)], function(x) as.numeric(gsub("%", "", x)))
-# gather data
+# gather data and plot them
 q7 %>%
   rstatix::gather(key = "year", value = "percent", -`Research centre`) %>%
   ggplot(aes(x = year, y = percent, color = `Research centre`, group = `Research centre`)) +

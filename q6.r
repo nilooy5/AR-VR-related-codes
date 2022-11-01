@@ -5,10 +5,10 @@ library(ggplot2)
 require(reshape2)
 
 q6_data <- read_csv("data/q6_data.csv")
-colnames(q6_data) <- tolower(colnames(q6_data))
-cap <- q6_data$capacity
-dem <- q6_data$demand
-q6_data <- melt(q6_data, id = "date")
+colnames(q6_data) <- tolower(colnames(q6_data)) # lowercasing column names for convinence
+cap <- q6_data$capacity # storing mean to draw abline
+dem <- q6_data$demand # similar as above but for demand
+q6_data <- melt(q6_data, id = "date") # melting data to plot it properly
 
 q6_data %>%
   ggplot() +
