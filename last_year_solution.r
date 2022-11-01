@@ -61,7 +61,7 @@ ui <- fluidPage(
 
     #main panel for plotting the graph
     mainPanel(
-      plotOutput(outputId = "plot1")
+      plotOutput(outputId = "main_plot")
     )
   )
 )
@@ -75,7 +75,6 @@ server <- function(input, output, session) {
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Sepal.Length <= input$sepal_length)
-
   })
 
   #filter the data set iris using species and sepal width
@@ -83,7 +82,6 @@ server <- function(input, output, session) {
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Sepal.Width <= input$sepal_width)
-
   })
 
   #filter the data set iris using species and petal length
@@ -91,54 +89,51 @@ server <- function(input, output, session) {
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Petal.Length <= input$petal_length)
-
   })
   #filter the data set iris using species and petal width
   filtered_by_PW <- reactive({
     iris %>%
       filter(Species %in% input$species) %>%
       filter(Petal.Width <= input$petal_width)
-
   })
 
   #function for updating slider inputs
   observe({
 
-    d <- iris %>%
+    filtered_by_species <- iris %>%
       filter(Species %in% input$species)
 
     updateSliderInput(session,
                       "sepal_length",
-                      min = min(d$Sepal.Length),
-                      max = max(d$Sepal.Length),
+                      min = min(filtered_by_species$Sepal.Length),
+                      max = max(filtered_by_species$Sepal.Length),
                       step = 0.1,
-                      value = (min(d$Sepal.Length) + max(d$Sepal.Length)) / 2)
+                      value = mean(filtered_by_species$Sepal.Length))
 
     updateSliderInput(session,
                       "sepal_width",
-                      min = min(d$Sepal.Width),
-                      max = max(d$Sepal.Width),
+                      min = min(filtered_by_species$Sepal.Width),
+                      max = max(filtered_by_species$Sepal.Width),
                       step = 0.1,
-                      value = (min(d$Sepal.Width) + max(d$Sepal.Width)) / 2)
+                      value = mean(filtered_by_species$Sepal.Width))
 
     updateSliderInput(session,
                       "petal_length",
-                      min = min(d$Petal.Length),
-                      max = max(d$Petal.Length),
+                      min = min(filtered_by_species$Petal.Length),
+                      max = max(filtered_by_species$Petal.Length),
                       step = 0.1,
-                      value = (min(d$Petal.Length) + max(d$Petal.Length)) / 2)
+                      value = mean(filtered_by_species$Petal.Length))
 
     updateSliderInput(session,
                       "petal_width",
-                      min = min(d$Petal.Width),
-                      max = max(d$Petal.Width),
+                      min = min(filtered_by_species$Petal.Width),
+                      max = max(filtered_by_species$Petal.Width),
                       step = 0.1,
-                      value = (min(d$Petal.Width) + max(d$Petal.Width)) / 2)
+                      value = mean(filtered_by_species$Petal.Width))
 
   })
 
-  output$plot1 <- renderPlot({
-
+  output$main_plot <- renderPlot({
     #render all plots using the dataframes ontained above
     gg1 <- ggplot(
       filtered_by_SL(),
