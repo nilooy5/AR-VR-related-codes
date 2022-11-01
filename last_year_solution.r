@@ -56,7 +56,7 @@ ui <- fluidPage(
                   min = 0.1, max = 5.0,
                   value = 0.5, step = 0.1),
 
-      textInput("Heading", "Title", value = "Enter the title", width = NULL, placeholder = NULL)
+      textInput("Heading", "Set Title", value = "Histogram of Different Variables", width = NULL, placeholder = NULL)
     ),
 
     #main panel for plotting the graph
@@ -139,32 +139,32 @@ server <- function(input, output, session) {
       filtered_by_SL(),
       aes(x = Sepal.Length)) +
       geom_histogram(fill = "yellow", color="black", alpha = 0.5, binwidth = .1) +
-      labs(y = "Sepal Length") +
-      labs(x = paste("total_count", nrow(filtered_by_SL()))) +
+      labs(y = paste("count (total = ", nrow(filtered_by_SL()),")")) +
+      labs(x = "Sepal Length") +
       theme_classic()
 
     gg2 <- ggplot(
       filtered_by_SW(),
       aes(x = Sepal.Width)) +
       geom_histogram(fill = "green", color="black", alpha = 0.5, binwidth = .1) +
-      labs(y = "Sepal Width") +
-      labs(x = paste("total_count", nrow(filtered_by_SW()))) +
+      labs(y = paste("count (total = ", nrow(filtered_by_SW()), ")")) +
+      labs(x = "Sepal Width") +
       theme_classic()
 
     gg3 <- ggplot(
       filtered_by_PL(),
       aes(x = Petal.Length)) +
       geom_histogram(fill = "blue", color="black", alpha = 0.5, binwidth = .1) +
-      labs(y = "Petal Length") +
-      labs(x = paste("total_count", nrow(filtered_by_PL()))) +
+      labs(y = paste("count (total = ", nrow(filtered_by_PL()), ")")) +
+      labs(x = "Petal Length") +
       theme_classic()
 
     gg4 <- ggplot(
       filtered_by_PW(),
       aes(x = Petal.Width)) +
-      geom_histogram(fill = "red", color="black", alpha = 0.5, binwidth = .1) +
-      labs(y = "Petal Width") +
-      labs(x = paste("total_count", nrow(filtered_by_PW()))) +
+      geom_histogram(fill = "red", color="black", alpha = 0.5, binwidth = .05) +
+      labs(y = paste("count (total = ", nrow(filtered_by_PW()), ")")) +
+      labs(x = "Petal Width") +
       theme_classic()
 
     grid.arrange(gg1, gg2, gg3, gg4, nrow = 2, ncol = 2, top = input$Heading)
