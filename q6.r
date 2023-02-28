@@ -4,7 +4,7 @@ library(readr)
 library(ggplot2)
 require(reshape2)
 
-q6_data <- read_csv("fazalMahmudNiloy_u3228358_q6_data.csv")
+q6_data <- read_csv("data6.csv")
 colnames(q6_data) <- tolower(colnames(q6_data)) # lowercasing column names for convinence
 cap <- q6_data$capacity # storing mean to draw abline
 dem <- q6_data$demand # similar as above but for demand

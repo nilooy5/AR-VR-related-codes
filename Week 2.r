@@ -1,11 +1,3 @@
-#***********************************************************************
-#   AR/VR for Data Analysis and Communication
-#      
-#   Week 2 - Take home exercise
-#
-#   Dr Raul Fernandez-Rojas
-#***********************************************************************
-
 # clear global environment
 rm(list=ls())
 

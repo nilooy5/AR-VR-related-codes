@@ -17,7 +17,6 @@ data(world.cities, package = "maps")
 cities <- world.cities[order(world.cities$pop, decreasing = TRUE)[1:"500"],]
 value <- 100 * cities$pop / max(cities$pop)
 globejs(bg = "white", lat = cities$lat, long = cities$long, rotationlat = -.34, rotationlong = -0.38, fov = 30)
-# savehistory("//studentfiles.win.canberra.edu.au/Homes$/u3228358/My Documents/fazal.R")
 
 
 # order status
